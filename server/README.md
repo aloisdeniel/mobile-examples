@@ -1,0 +1,5 @@
+# server
+
+```
+> node index.js
+```

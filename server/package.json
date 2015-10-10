@@ -1,0 +1,27 @@
+{
+  "name": "mobile-examples-server",
+  "version": "0.0.1",
+  "description": "A rest api server for training purpose.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "test",
+    "mobile",
+    "example",
+    "server",
+    "rest"
+  ],
+  "author": "Aloïs Deniel",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^1.0.0",
+    "koa-bodyparser": "^2.0.1",
+    "koa-ejs": "^2.0.1",
+    "koa-json": "^1.1.1",
+    "koa-route": "^2.4.2",
+    "koa-serve": "^0.1.6",
+    "tingodb": "^0.4.2"
+  }
+}
