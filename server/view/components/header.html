@@ -1,0 +1,24 @@
+<%if (include === 'templates') { %>
+
+<template id="template-header">
+  <div class="header"><h1>{{ title }}</h1></div>
+</template>
+
+<%} else if (include === 'styles') {%>
+
+<style>
+.header, .subheader, .content { padding: 30px; }
+.header { background: <%= colors.accent %>; color: #fff; }
+.header h1 { font-size: 20px; font-weight: 300;}
+</style>
+
+<%} else if (include === 'scripts') {%>
+
+<script>
+var component_header = {
+   props:{ title: { type: String, default: ""} },
+   template: '#template-header'
+};
+</script>
+
+<%}%>

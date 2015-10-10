@@ -1,0 +1,42 @@
+<%if (include === 'templates') { %>
+
+<template id="template-doc">
+  <div class="markdown-content" v-html="content | marked"></div>
+</template>
+
+<%} else if (include === 'styles') {%>
+
+<style>
+.markdown-content h1 { color:<%= colors.accent %>; font-size: 24px; }
+.markdown-content h2 { color:<%= colors.accent %>; font-size: 22px; border-bottom: 1px solid #ddd; margin-top: 40px; padding-bottom: 10px; margin-bottom: 20px; }
+.markdown-content h3 { color:#666; font-size: 16px; }
+.markdown-content h4 { color:#666; font-size: 14px; }
+.markdown-content h5 { color:#666; font-size: 12px; }
+.markdown-content h6 { color:#666; font-size: 11px; }
+.markdown-content p,.markdown-content li { color: #666; font-size: 12px; }
+.markdown-content code { background: #eee; padding: 2px; border-radius: 2px; border: solid 1px #dadada; font-family: monospace;font-size: 11px; }
+.markdown-content pre { background: #eee;  padding: 10px; border-radius: 4px; border: solid 1px #dadada; }
+.markdown-content pre code { background: transparent; padding: 0px; border: 0px; }
+.markdown-content hr {  height: 0; margin: 15px 0; overflow: hidden; background: transparent; border: 0; border-bottom: 1px solid #ddd; }
+</style>
+
+<%} else if (include === 'scripts') {%>
+
+<script>
+var component_doc = function(name) {
+  return {
+      props: { content: { type: String, default: () => "" } },
+      template: '#template-doc',
+      methods : {
+        update: function() {
+          var vm = this;
+          $.get('/doc/'+name+'.md', function(data) { vm.content = data; });
+        }
+      },
+      route: { activate: function (transition) { this.update(); transition.next(); }
+     }
+   }
+ };
+</script>
+
+<%}%>

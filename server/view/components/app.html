@@ -1,0 +1,51 @@
+<%if (include === 'templates') { %>
+
+<template id="template-app">
+  <header title="Examples-Mobile server"></header>
+
+  <subheader></subheader>
+
+  <div class="content">
+     <router-view></router-view>
+  </div>
+
+  <div class="footer">
+    <p>Made with ♥ by Aloïs Deniel</p>
+    <a href="https://github.com/aloisdeniel/mobile-examples">Github</a>
+  </div>
+
+  <write show="{{@isWriting}}"></write>
+
+</template>
+
+<%} else if (include === 'styles') {%>
+
+<style>
+*{ font-family: 'Open Sans', sans-serif; }
+html, body, div, h1 { padding: 0px; margin: 0px; }
+html { background: #eee; }
+b { font-weight: 600;}
+.footer p { color: #bbb; text-align: center; font-size: 11px; padding-top: 30px;}
+.footer a { color: #bbb; text-align: center; font-size: 11px; display: block; padding-bottom: 30px;}
+.content { min-height: 40px; background: #f4f4f4; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd;}
+a.button {color: #fff; font-weight: 600; margin-left: 5px; font-size: 18px; text-decoration: none; float: right; padding: 5px 20px; background: <%= colors.accent %>; border-radius: 3px; };}
+a.button:hover { background-color: #333; cursor: pointer; }
+a.button.secondary { background-color: #ccc; }
+</style>
+
+<%} else if (include === 'scripts') {%>
+
+<script>
+var component_app = {
+  props: { isWriting: { type: Boolean, default: false } },
+  template: '#template-app',
+  created: function(){
+    var vm = this;
+    this.$on('select-tab', function(tab) { router.go({name: tab}); })
+    this.$on('action-write', function(value) { vm.isWriting = value; })
+    this.$on('update-needed', function() { vm.$broadcast('update-needed'); })
+  }
+};
+</script>
+
+<%}%>

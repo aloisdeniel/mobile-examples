@@ -4,41 +4,26 @@
     <title>Examples-Mobile</title>
     <meta charset="utf-8">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
-    <style>
-      *{ font-family: 'Open Sans', sans-serif; }
-      html, body, div, h1 { padding: 0px; margin: 0px; }
-      html { background: #eee; }
-      b { font-weight: 600;}
-      .content { min-height: 40px; background: #f4f4f4; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd;}
-      .header, .subheader, .content { padding: 30px; }
-      .header { background: <%= colors.accent %>; color: #fff; }
-      .header h1 { font-size: 20px; font-weight: 300;}
-      .subheader { height: 25px;  }
-      .subheader a { color: #666; text-decoration: none; display: block; float: left; margin-right: 40px; margin-bottom: 20px; }
-      .subheader a:hover { color: <%= colors.accent %>; cursor: pointer; }
-      .subheader a.selected { color: #444; font-weight: 600; border-bottom: 4px solid <%= colors.accent %>;}
-      .footer p { color: #bbb; text-align: center; font-size: 11px; padding-top: 30px;}
-      .footer a { color: #bbb; text-align: center; font-size: 11px; display: block;}
-      .menu { float:left; width:300px; }
-      .shadow { box-shadow: 1px 1px 6px 0px #ddd;}
-      .feed-message { margin: 20px auto; width: 75%; background: #fff; border-radius: 4px;}
-      .feed-message h3 { background: #333; color: #fff; font-size: 13px; padding: 10px 30px; margin: 0px; border-radius: 4px 4px  0px 0px;}
-      .feed-message h3 span { color: #bbb; font-size: 11px; margin-top:1px; float: right;}
-      .feed-message p { color: #666; font-size: 12px; padding: 30px; margin: 0px; }
-      .markdown-content h1 { color:<%= colors.accent %>; font-size: 24px; }
-      .markdown-content h2 { color:<%= colors.accent %>; font-size: 22px; border-bottom: 1px solid #ddd; margin-top: 40px; padding-bottom: 10px; margin-bottom: 20px; }
-      .markdown-content h3 { color:#666; font-size: 16px; }
-      .markdown-content h4 { color:#666; font-size: 14px; }
-      .markdown-content h5 { color:#666; font-size: 12px; }
-      .markdown-content h6 { color:#666; font-size: 11px; }
-      .markdown-content p,.markdown-content li { color: #666; font-size: 12px; }
-      .markdown-content code { background: #eee; padding: 2px; border-radius: 2px; border: solid 1px #dadada; font-family: monospace;font-size: 11px; }
-      .markdown-content pre { background: #eee;  padding: 10px; border-radius: 4px; border: solid 1px #dadada; }
-      .markdown-content pre code { background: transparent; padding: 0px; border: 0px; }
-      .markdown-content hr {  height: 0; margin: 15px 0; overflow: hidden; background: transparent; border: 0; border-bottom: 1px solid #ddd; }
-    </style>
+    <link href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' rel='stylesheet' type='text/css'>
+
+    <% var include = 'styles'; %>
+    <% include components/app.html %>
+    <% include components/header.html %>
+    <% include components/subheader.html %>
+    <% include components/feed.html %>
+    <% include components/doc.html %>
+    <% include components/write.html %>
+
   </head>
   <body>
+
+    <% var include = 'templates'; %>
+    <% include components/app.html %>
+    <% include components/header.html %>
+    <% include components/subheader.html %>
+    <% include components/feed.html %>
+    <% include components/doc.html %>
+    <% include components/write.html %>
 
     <div id="app">
         <header title="Examples-Mobile server"></header>
@@ -60,68 +45,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.6.2/vue-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-    <script>
-      var feed = {
-        props: { feed: { type: Array, default: () => [] }},
-        template: '<div class="feed-message shadow" v-repeat="feed"><h3>{{ author }} <span>{{ date | moment }}</span></h3><p>{{ content }}</p></div>',
-        methods : { update: function() {
-            var vm = this;
-            $.get('/api/feed?limit=2000', function(data) { vm.feed = data.messages; });
-          }
-        },
-        route: { activate: function (transition) { this.update(); transition.next(); }
-       }
-     };
 
-     var doc = function(name) {
-       return {
-           props: { content: { type: String, default: () => "" } },
-           template: '<div class="markdown-content" v-html="content | marked"></div>',
-           methods : { update: function() {
-               var vm = this;
-               $.get('/doc/'+name+'.md', function(data) { vm.content = data; });
-             }
-           },
-           route: { activate: function (transition) { this.update(); transition.next(); }
-          }
-        }
-      };
+   <% var include = 'scripts'; %>
+   <% include components/header.html %>
+   <% include components/subheader.html %>
+   <% include components/feed.html %>
+   <% include components/doc.html %>
+   <% include components/write.html %>
+
+    <script>
 
      var routes = {
-       '/feed': { name: 'feed', component: feed },
-       '/documentation': { name: 'documentation', component: doc('documentation') },
-       '/help': { name: 'help', component: doc('help') },
+       '/feed': { name: 'feed', component: component_feed },
+       '/documentation': { name: 'documentation', component: component_doc('documentation') },
+       '/help': { name: 'help', component: component_doc('help') },
      }
 
+     // Filters
      Vue.filter('marked', (value) => marked(value))
      Vue.filter('selected', (value) => value ? 'selected' : 'unselected')
      Vue.filter('moment', (value) => moment(value).startOf('minute').fromNow())
 
-     Vue.component('header', {
-        props:{ title: { type: String, default: ""} },
-        template: '<div class="header"><h1>{{ title }}</h1></div>'
-     });
-
-     Vue.component('subheader', {
-       props:   { tabs : { type: Array, default : () => $.map(routes, (e,i) => { return { name: e.name, selected: false }}) } }  ,
-       template: '<div class="subheader"><a v-repeat="tab in tabs" v-on="click: select(tab)" class="{{ tab.selected | selected }}">{{tab.name}}</a></div>',
-       methods: { select : function(tab) {
-         this.$dispatch('select-tab',tab.name);
-       }},
-       created: function() {
-         this.$on('selected-tab',(name) => this.tabs.forEach((e) => e.selected = (e.name === name)));
-       }
-     });
+     Vue.component('header', component_header);
+     Vue.component('subheader', component_subheader);
+     Vue.component('write', component_write);
 
      var router = new VueRouter();
      router.map(routes)
      router.redirect({ '/' : '/feed' })
 
-      var App = Vue.extend({
-        created: function(){
-          this.$on('select-tab', function(tab) { router.go({name: tab}); })
-        }
-      });
+     </script>
+
+     <% include components/app.html %>
+
+     <script>
+
+      var App = Vue.extend(component_app);
 
       router.afterEach(function (transition) {
         router.app.$broadcast('selected-tab', transition.to.name);

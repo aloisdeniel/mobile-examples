@@ -20,9 +20,12 @@ FeedModel.prototype.all = function(offset,limit) {
 
 FeedModel.prototype.create = function(message) {
   _validate(message);
-  message.date = new Date();
   return new Promise(function(resolve,reject) {
-    db.insert(message,(e, v) => { if(e) return reject(e); resolve(v); });
+    db.insert({
+      author: message.author,
+      content: message.content,
+      date: new Date()
+    },(e, v) => { if(e) return reject(e); resolve(v); });
   });
 }
 

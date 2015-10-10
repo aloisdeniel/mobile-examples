@@ -1,0 +1,33 @@
+<%if (include === 'templates') { %>
+
+<template id="template-subheader">
+  <div class="subheader">
+    <a v-repeat="tab in tabs" v-on="click: select(tab)" class="{{ tab.selected | selected }}">{{tab.name}}</a>
+  </div>
+</template>
+
+<%} else if (include === 'styles') {%>
+
+<style>
+.subheader { height: 25px;  }
+.subheader a { color: #666; text-decoration: none; display: block; float: left; margin-right: 40px; margin-bottom: 20px; }
+.subheader a:hover { color: <%= colors.accent %>; cursor: pointer; }
+.subheader a.selected { color: #444; font-weight: 600; border-bottom: 4px solid <%= colors.accent %>;}
+</style>
+
+<%} else if (include === 'scripts') {%>
+
+<script>
+var component_subheader = {
+  props:   { tabs : { type: Array, default : () => $.map(routes, (e,i) => { return { name: e.name, selected: false }}) } }  ,
+  template: '#template-subheader',
+  methods: { select : function(tab) {
+    this.$dispatch('select-tab',tab.name);
+  }},
+  created: function() {
+    this.$on('selected-tab',(name) => this.tabs.forEach((e) => e.selected = (e.name === name)));
+  }
+};
+</script>
+
+<%}%>
