@@ -4,9 +4,23 @@ var render = require('koa-ejs');
 var serve = require('koa-serve');
 var bodyParser = require('koa-bodyparser');
 var api = require('./api');
+var Files = require('./files');
 var path = require('path');
+var config = require('config');
 
 var port = 3000;
+
+var state = {
+  name: 'Server',
+  icon: 'cloud',
+  colors: {
+    accent: '#4ec8b0'
+  }
+}
+
+if (config.has('name')) { state.name = config.get('name'); };
+if (config.has('icon')) { state.icon = config.get('icon'); };
+if (config.has('colors.accent')) { state.colors.accent = config.get('colors.accent'); };
 
 var app = koa();
 
@@ -39,12 +53,16 @@ api(app);
 
 app.use(serve('doc'));
 
+// Files
+new Files('/files').mount(app)
+
 // Views
 
 app.use(function *() {
-  this.state.colors = { accent: '#4ec8b0' } ;
+  this.state = state;
   yield this.render('index');
 });
+
 
 // Starting server
 

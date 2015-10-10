@@ -1,0 +1,39 @@
+<%if (include === 'templates') { %>
+
+<template id="template-files">
+  <div class="file-list">
+    <p>Start a download by clicking a link</p>
+    <div class="item" v-repeat="files">
+      <a href="{{path}}"><i class="ion-document"></i>{{name}}</a>
+    </div>
+  </div>
+</template>
+
+<%} else if (include === 'styles') {%>
+
+<style>
+.file-list {}
+.file-list p { color: #666; font-size: 12px; }
+.file-list .item { margin-bottom: 5px;}
+.file-list .item a { color:#444; text-decoration: none; font-weight: 600;}
+.file-list .item a:hover { color: <%= colors.accent %> }
+.file-list .item a i { margin-right: 5px;}
+</style>
+
+<%} else if (include === 'scripts') {%>
+
+<script>
+var component_files = {
+  props: { files: { type: Array, default: () => [] }},
+  template: '#template-files',
+  methods : {
+    update: function() {
+      var $this = this;
+      $.get('/files', function(data) { $this.files = data; });
+    }
+  },
+  route: { activate: function (transition) { this.update(); transition.next(); } }
+};
+</script>
+
+<%}%>

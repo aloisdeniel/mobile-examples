@@ -6,7 +6,7 @@
     <a class="button" v-on="click: update()"><i class="ion-refresh"></i></a>
   </div>
   <div class="feed-message shadow" v-repeat="feed">
-    <h3>{{ author }} <span>{{ date | moment }}</span></h3>
+    <h3><i class="ion-person"></i>{{ author }} <span>{{ date | moment }} <i class="ion-android-alarm-clock"></i></span></h3>
     <p>{{ content }}</p>
   </div>
 </template>
@@ -18,6 +18,8 @@
 .action-bar { height: 25px; width: 75%;  margin: 0px auto;}
 .feed-message { margin: 20px auto; width: 75%; background: #fff; border-radius: 4px;}
 .feed-message h3 { background: #333; color: #fff; font-size: 13px; padding: 10px 30px; margin: 0px; border-radius: 4px 4px  0px 0px;}
+.feed-message h3 i { margin-right: 10px;}
+.feed-message h3 span i { margin-right: 0px; margin-left: 5px;}
 .feed-message h3 span { color: #bbb; font-size: 11px; margin-top:1px; float: right;}
 .feed-message p { color: #666; font-size: 12px; padding: 30px; margin: 0px; }
 </style>
