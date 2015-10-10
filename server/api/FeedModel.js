@@ -1,5 +1,6 @@
 var Db = require('tingodb')().Db;
-var db = new Db(__dirname, {}).collection("feed");
+var path = require('path');
+var db = new Db(path.join(__dirname, '../data'), {}).collection("feed");
 
 var FeedModel = function() {}
 
