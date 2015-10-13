@@ -30,7 +30,7 @@ var component_doc = function(name) {
       methods : {
         update: function() {
           var vm = this;
-          $.get('/doc/'+name+'.md', function(data) { vm.content = data; });
+          $.get('/files/doc/'+name+'.md', function(data) { vm.content = data; });
         }
       },
       route: { activate: function (transition) { this.update(); transition.next(); }

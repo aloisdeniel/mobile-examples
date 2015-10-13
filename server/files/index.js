@@ -14,13 +14,19 @@ var App = function(relative) {
 
   var $this = this;
 
-
   this.app.use(route.get('/',function*(){
     this.body = yield $this.listFiles();
   }));
 
+  this.app.use(route.get('/doc/:name',function*(name){
+    var filepath = path.join(__dirname ,'../doc', name);
+    yield* sendfile.call(this, filepath);
+    console.log('File > ' + filepath);
+    if (!this.status) this.throw(404)
+  }));
+
   this.app.use(route.get('/:name',function*(name){
-    var stats = yield* sendfile.call(this, path.join(process.cwd(),name));
+    yield* sendfile.call(this, path.join(process.cwd(),name));
     if (!this.status) this.throw(404)
   }));
 };

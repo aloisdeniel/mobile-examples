@@ -2,6 +2,7 @@ var koa = require('koa');
 var json = require('koa-json');
 var render = require('koa-ejs');
 var serve = require('koa-serve');
+var mount = require('koa-mount');
 var bodyParser = require('koa-bodyparser');
 var api = require('./api');
 var Files = require('./files');
@@ -48,11 +49,7 @@ render(app, {
 // Api
 
 api(app);
-
-// Static
-
-app.use(serve('doc'));
-
+    
 // Files
 new Files('/files').mount(app)
 
